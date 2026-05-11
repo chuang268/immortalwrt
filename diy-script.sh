@@ -19,6 +19,17 @@ sed -i '8s/2048/51200/g' feeds/packages/net/miniupnpd/files/upnpd.config
 sed -i '54s/dhcp/pppoe/g' package/base-files/files/lib/functions/uci-defaults.sh
 sed -i '86s/dhcp/pppoe/g' package/base-files/files/lib/functions/uci-defaults.sh
 
+#高通平台调整
+DTS_PATH="./target/linux/qualcommax/dts/"
+if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
+	#取消nss相关feed
+	echo "CONFIG_FEED_nss_packages=n" >> ./.config
+	echo "CONFIG_FEED_sqm_scripts_nss=n" >> ./.config
+	echo "CONFIG_PACKAGE_kmod-usb-serial-qualcomm=n" >> ./.config
+  #设置NSS版本
+	echo "CONFIG_NSS_FIRMWARE_VERSION_12_5=y" >> ./.config
+		
+
 # Add a feed source
 # echo 'src-git adguardhome https://github.com/rufengsuixing/luci-app-adguardhome' >>feeds.conf.default
 
